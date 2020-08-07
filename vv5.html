@@ -39,7 +39,14 @@ var sv = getParam("sv");
 		    function reload() {if (player.paused() && player.error_ != null)play(sv);}
 		    function init() { play(sv); setInterval(function() {reload()}, 3000);} </script>
 
-
+<script>
+	var player = videojs(); 
+	player.nuevo ({
+		logo: 'https://4.bp.blogspot.com/-34SPx0qzBko/XV2tEcLbiVI/AAAAAAAAID8/H9j9Vrfo1jEVSq8xyWQgPvowGHt94SYvwCK4BGAYYCw/s1600/logo1.png',
+		logourl: '//domain.com',
+		logoposition: 'RT',
+	});
+</script>
 
 <div id="videojs">
 </div>

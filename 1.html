@@ -8,9 +8,13 @@
 function getParam ( sname )
 {
   var params = location.search.substr(location.search.indexOf("?")+1);
-  var sval =  params.replace("sv=", "&");
+  var sval =  params.replace("sv=", "");
   
   return sval;
+}
+var sv = getParam("sv");
+
+
 }
 
 function removeloto() {

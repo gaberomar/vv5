@@ -43,9 +43,10 @@ var sv = getParam("sv");
 	<script>
 
 	
-		 var i = 0;
+		
+	 var i = 0;
 	
-	function play(streaming) {
+	function play(link) {
 			 
 		
 		
@@ -61,7 +62,7 @@ var sv = getParam("sv");
     };
     var player = videojs('streaming', options);
 	       player.src({
-	            src: sv,
+	            src: link,
 	            type: "application/x-mpegURL"
 	        });
 	    player.play()
@@ -82,7 +83,7 @@ var sv = getParam("sv");
 
 	function init() {
 	   
-	    link = [sv,sv1];
+	    link = [sv];
 	    play(link[i]);
 	    interval = setInterval(function() {
 	        

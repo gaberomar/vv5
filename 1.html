@@ -245,14 +245,9 @@ var sv = getParam("sv");
                     $(this).animate({"left": '-120'});
                 });
             }
-
-            
-            
-            
                             var source = [{
                         src: sv,
                         type: "application/x-mpegURL", 
-                        autoPlay: true, 
                     }];
                 player.src(source);
             
@@ -263,9 +258,6 @@ var sv = getParam("sv");
                 seekStep: 5,
                 enableModifiersForNumbers: false
             });
-
-            
-            
             player.on("waiting", function ()
             {
                 this.addClass("vjs-custom-waiting");

@@ -1,6 +1,6 @@
 
 
-<!doctype html>
+
 <html lang="en" data-cast-api-enabled="true"><head>
 <style id='page-skin-1' type='text/css'><!--
 *{margin:0; padding:0; }
@@ -10,13 +10,7 @@
 <style> .video-js {width: 100%; height: 100%;} #videojs {width: 100%; height: 100%;}</style>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Al Araby</title>
-    <meta name="csrf-token" content="sJKNSFo1ICuUQf7MquzhSHkFFELx0UrcPBebWSwk">
-    <link href="https://player.octivid.com/resources/assets/css/mangoPlayer_v2.css?v=3.1" rel="stylesheet">
-    <link href="https://player.octivid.com/resources/assets/css/plugins.css" rel="stylesheet">
-    <script src="https://player.octivid.com/public/js/jquery-2.0.0.js"></script>
-    <script src="https://player.octivid.com/resources/assets/js/MangoPlayerLive_v2.js?v=2"></script>
-    <script type="text/javascript" src="https://player.octivid.com/public/js/new-players-event.min.js"></script>
-
+  <script src="https://cdns.livestreamapi.ru/js/playerjs_ps.js" type="text/javascript"></script>
 <script>
 function getParam ( sname )
 {
@@ -62,221 +56,23 @@ var sv = getParam("sv");
     </head>
 
 <body>
+<div id="player" style="width:100%;height:100%;"></div>
 
 <script>
+   var player = new Playerjs({
+	   id:"player",   
+	   url:sv, 
+	   embed:sv,
+	   file:sv, 
+	   hls:1, 
+	   title:"",
+	   poster:"https://cdns.livestreamapi.ru/img/soc/1.jpg",
+	   autoplay:1,
 
-    
-    function makeid(length) {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-    var sessionid = makeid(32);
+	   });
+</script><span style='position:absolute; bottom: 30px!important; left: 10px!important; max-bottom: 10px!important; max-width: 170%!important; width: 22%!important; font-size: 13px; font-weight: bold;color: #ff0;'>
+<img style= 'left: 10px!important; max-height: 50px!important; max-width: 100%!important; width: 90%!important;' src='http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png'></span>
 
-    function updateState() {
-        var userid = 'MTEy';
-        var channelid = 'NjE=';
-        var browserOS = navigator.userAgent.toLowerCase();
-        var domain = (!$.isEmptyObject(document.referrer.split('/')[2])) ? document.referrer.split('/')[2] : 'player.octivid.com';
-        var channel_user_id = "";
-
-                $.ajax({
-            type: 'POST', // Use POST with X-HTTP-Method-Override or a straight PUT if appropriate.
-            dataType: 'json',
-            url: "https://player.octivid.com/stats/update",
-            headers: {
-                "X-HTTP-Method-Override": "PUT",
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
-            }, // X-HTTP-Method-Override set to PUT.
-            beforeSend: function (xhr) {
-            },
-            data: {
-                userid: userid,
-                channelid: channelid,
-                browserOS: browserOS,
-                sessionid: sessionid,
-                domain: domain,
-                channel_user_id: channel_user_id
-            }
-        }).done(function (data) {
-            if (!$.isEmptyObject(data)) {
-                if (data.isLive == 0) {
-                    $("#live").remove();
-                    $("#error_msg").remove();
-                    update_status = false;
-                    localStorage.setItem('currentLive', 'off');
-                    jQuery('<div/>', {
-                        id: 'error_msg',
-                        html: '<div style="padding-top: 20%; font-family: "Courier New", Courier, monospace">This content is Not Available for Streaming, Please tune to the Channel to watch It on your TV.</div>'
-                    }).appendTo("body").css(
-                        {
-                            "width": '100%',
-                            "height": '100%',
-                            "padding": "0",
-                            "margin": "0",
-                            "color": '#000',
-                            "text-align": "center",
-                            "background": "#fbfbfb url('//statrescdn.octivid.com/analytics/img/bgd-notavailable.jpg') center center",
-                            "background-size": "cover"
-
-                        });
-                }
-
-                if (data.isLive == 1 && localStorage.getItem('currentLive') == 'off') {
-                    location.reload(true);
-                    localStorage.removeItem('currentLive');
-                }
-
-                if (data.isLive == 1) {
-                    localStorage.setItem('currentLive', 'on');
-                }
-            }
-        });
-            }
-
-    function loadPlayer(id, width, height, poster) {
-
-        id = typeof id !== 'undefined' ? id : 'live' ;
-        width = typeof width !== 'undefined' ? width : '100%';
-        height = typeof height !== 'undefined' ? height : '100%';
-        poster = typeof poster !== 'undefined' ? poster : "https://cdns.livestreamapi.ru/img/soc/1.jpg";
-        var autoplay = "no";
-        var updateStateInterval;
-
-        var attributes = {
-            'id': id,
-            'class': 'video-js dotcom_player dotcom_liveplayer vjs-mango-skin',
-            'width': width,
-            'height': height,
-            'controls': '',
-            'poster':poster,
-            'preload':'none',
-            'webkit-playsinline': 'true',
-            'playsinline': 'true'
-        };
-
-        obj = $('<video />').attr(attributes);
-
-        if (autoplay === 'yes') {
-            // obj.attr('autoplay', '');
-            obj.attr('preload', 'auto');
-        }
-
-        $('body').append(obj);
-
-        
-        var controls = {
-                    techOrder: ['html5'/*, 'flash'*/],
-            // plugins: {
-            //     chromecast: {
-            //         appId: "9A356087"
-            //     }
-            // },
-            html5: {
-                nativeTextTracks: false,
-                hlsjsConfig: {
-//                    startLevel  : 0,
-//                    maxBufferSize: 0,
-//                    maxBufferLength: 5,
-//                    liveSyncDuration: 5,
-                    autoStartLoad: true,
-                    //if set to true, the adaptive algorithm with limit levels usable in auto-quality
-//                    capLevelToPlayerSize: true,
-                    defaultAudioCodec: "mp4a.40.5,mp4a.40.2",
-                    debug: false
-                }
-            },
-            aspectRatio: "16:9",
-            fluid: false,
-            debug: false
-        };
-
-        var player = videojs("live", controls);
-        $("video").attr("poster", "");
-
-        var adURL = '';
-                var options = {
-            autoplay: autoplay,
-            ads: {
-                adTagUrl: adURL
-            }
-        };
-        var browser = {
-            IS_IOS: /iP(hone|ad|od)/i.test(navigator.userAgent),
-            IS_ANDROID: /Android/.test(navigator.userAgent),
-            IS_IE: document.documentMode || /Edge/.test(navigator.userAgent), // detect IE8 and above, and edge
-            IS_IE11: !!window.MSInputMethodContext && !!document.documentMode
-        };
-
-        var IS_MOBILE = browser.IS_IOS || browser.IS_ANDROID;
-
-        var clickEvent = IS_MOBILE ? 'touchend' : 'click';
-
-        
-        player.one('ready', function () {
-            player = this;
-
-            if (autoplay === 'yes') {
-                if(player.paused()){
-                    player.play();
-                }
-            }
-
-            player.on('pause', function () {
-                // console.log("paused");
-                clearInterval(updateStateInterval);
-            });
-
-            player.on('play', function () {
-                updateStateInterval=setInterval(updateState, 90000);
-                // console.log("resumed");
-            });
-
-            if (IS_MOBILE && autoplay === 'yes') {
-                player.muted(true);
-                $('#live').append('<div id="unmute_button" style="z-index: 9999"><i style="font-size: 12px" class="vjs-icon-volume-mute"></i> TAP TO UNMUTE </div>');
-                $('#unmute_button').animate({"left": '+=140'});
-                $("#unmute_button").click(function(){
-                    player.muted(false);
-                    player.volume(100);
-                    $(this).animate({"left": '-120'});
-                });
-            }
-                            var source = [{
-                        src: sv,
-                        type: "application/x-mpegURL", 
-                    }];
-                player.src(source);
-            
-            player.hlsQualitySelector();
-
-            player.hotkeys({
-                enableVolumeScroll: false,
-                seekStep: 5,
-                enableModifiersForNumbers: false
-            });
-            player.on("waiting", function ()
-            {
-                this.addClass("vjs-custom-waiting");
-                console.log('waiting...');
-            });
-
-            player.on("playing", function ()
-            {
-                this.removeClass("vjs-custom-waiting");
-                console.log('playing...');
-            });
-
-            
-            //this code for other channel button.
-                    });
-    }
-
-    </script>
 
 <script>
     var update_status = true;
@@ -297,9 +93,3 @@ var sv = getParam("sv");
 
 </body>
 </html>
-
-
-
-
-
-

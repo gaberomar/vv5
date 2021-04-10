@@ -99,9 +99,7 @@ watermark: "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQH
                         events: {
                         onError: function(e) {
                         setTimeout(function() { player.configure(player.options); }, 10000);}},
- plugins: [
-        LevelSelector,  ErrorPlugin
-            ],
+   plugins: {'core': [LevelSelector]},  
     playback: {
         hlsjsConfig: {
         hlsUseNextLevel: true,
@@ -113,8 +111,10 @@ watermark: "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQH
         fragLoadingRetryDelay: 10,
         fragLoadingTimeOut: 1000,
         startFragPrefetch: true,}
-    }
-
+    },
+ plugins: [
+         ErrorPlugin
+            ],
 });
 p2pml.hlsjs.initClapprPlayer(player);
 player.on(Clappr.Events.PLAYER_STOP, playerStop);

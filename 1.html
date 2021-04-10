@@ -86,6 +86,7 @@ var player = new Clappr.Player({
     width: "100%",
     autoPlay: true,
     parentId: '#player',
+    hideVolumeBar: true,
  watermark: "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png", 				
 	position: 'bottom-left',
 mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"}, 
@@ -97,9 +98,16 @@ mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"},
         loader: engine.createLoaderClass(),
         xhrSetup: function(xhr, url) {
             xhr.withCredentials = false;
-        }
-    }
+       }
+    },  
+events: {	
+onError: function (e) 
+{ 
+errbox();
+ },  
+      }
 });
+	
 p2pml.hlsjs.initClapprPlayer(player);
 
   

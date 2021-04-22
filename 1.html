@@ -70,6 +70,7 @@ var sv = getParam("sv");
 		fragLoadingTimeOut: 1000,
 		startFragPrefetch: true,
 	};
+let engine = new p2pml.hlsjs.Engine({segments: {swarmId: ""},loader: {httpUseRanges:true, WaitForTracker: true, WaitForTrackerCounter:4500}});
 
 	if (typeof engine!="undefined" && typeof p2pml!="undefined" ) {
 		hlsjsConfig["loader"] = engine.createLoaderClass();

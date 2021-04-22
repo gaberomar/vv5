@@ -134,8 +134,7 @@ var sv = getParam("sv");
 
 		setTimeout(function() { player.play(); }, 3000);
 	});
-
-		function WSreloadStream( )
+function WSreloadStream( )
 	{
 		$(".stream-offline").css("display","none");
 		var newplayer = player.configure(player);
@@ -151,26 +150,13 @@ var sv = getParam("sv");
 	{
 		player.unmute();
 	}
-function plstst(){
-		var ua = navigator.userAgent.toLowerCase();
-	      
-if(ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1){
-//player.pause ();	
-//player.getPlugin('poster').el.classList.add('psdrddd');
-}else {
-//player.pause ();
-player.core.mediaControl.toggleFullscreen();
-//player.getPlugin('poster').el.classList.add('psdrddd');
-
-}
-}
-setTimeout(plstst, 39000);
-
+p2pml.hlsjs.initClapprPlayer(player);
+  
   player.on(Clappr.Events.PLAYER_STOP, playerStop);
                function playerStop(){
                location.reload();
                 }
-    
+     document.write("Not supported :(");
                player.setVolume(100); // 1%
                player.play();
 

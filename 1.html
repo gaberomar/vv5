@@ -1,9 +1,4 @@
-
-
-
-
-
- <html><head>
+<html><head>
 <style id='page-skin-1' type='text/css'><!--
 *{margin:0; padding:0; }
 #player{width: 100vw; height: 100vh;}
@@ -61,6 +56,53 @@ var sv = getParam("sv");
 </script>
 <div class="container">
 <div id="vid" class="embed-responsive-item"></div>
+	<style class="clappr-style">.Clappr-playback {
+  height: 100%;
+  width: 100%; }
+  .Clappr-playback .Clappr-playback-background, .Clappr-playback .Clappr-playback-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%; }
+  .Clappr-playback .Clappr-playback-background {
+    background-size: contain; }
+  .Clappr-playback .Clappr-playback-overlay {
+    background-color: #000;
+    opacity: 0.4; }
+
+.Clappr-button {
+  background: transparent;
+  border: 0;
+  width: 32px;
+  height: 32px;
+  font-size: 22px;
+  line-height: 32px;
+  letter-spacing: 0;
+  margin: 0 6px;
+  color: #fff;
+  opacity: 0.5;
+  vertical-align: middle;
+  text-align: left;
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition: all 0.1s ease;
+  -moz-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  transition: all 0.1s ease; }
+  .Clappr-button:hover {
+    opacity: 0.75;
+    text-shadow: rgba(255, 255, 255, 0.8) 0 0 5px; }
+  .Clappr-button:focus {
+    outline: none; }
+  .chromecast-button svg {
+    width: 24px;
+    height: 24px; }
+    .Clappr-button svg #cast, .chromecast-button svg #cast-on, .chromecast-button svg #Path {
+      fill: #fff;
+      stroke: #fff;
+      stroke-width: 0.5px; }
+</style>
+
 <script>
 	var player;
 	var hlsjsConfig =  {

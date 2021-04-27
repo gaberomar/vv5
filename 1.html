@@ -1,3 +1,4 @@
+
 <html><head>
 <style id='page-skin-1' type='text/css'><!--
 *{margin:0; padding:0; }
@@ -102,105 +103,46 @@ var sv = getParam("sv");
       stroke: #fff;
       stroke-width: 0.5px; }
 </style>
-
 <script>
-	var player;
-	var hlsjsConfig =  {
-		hlsUseNextLevel: true,
-		liveSyncDurationCount: 7,
-		maxBufferHole: 10,
-		maxLoadingDelay: 6,
-		maxBufferSize: 100,
-		fragLoadingRetryDelay: 10,
-		fragLoadingTimeOut: 1000,
-		startFragPrefetch: true,
-	};
-let engine = new p2pml.hlsjs.Engine({segments: {swarmId: ""},loader: {httpUseRanges:true, WaitForTracker: true, WaitForTrackerCounter:4500}});
 
-	if (typeof engine!="undefined" && typeof p2pml!="undefined" ) {
-		hlsjsConfig["loader"] = engine.createLoaderClass();
-	}
+let engine = new p2pml.hlsjs.Engine({segments: {swarmId: "ga3"},loader: {httpUseRanges:true, WaitForTracker: true, WaitForTrackerCounter:4500}});
 
-	$( document ).ready( function(){
-	   player = new Clappr.Player({
-	     source: sv,
-		   fullscreen: false,
-            mimeType: 'application/x-mpegURL',
-            autoPlay: true, 
-            mute: false, 
-            hideVolumeBar: true,
-			loop: true, 
-            height: '100%',
-            width: '100%',
-			playback: {
-      playInline: 'playsinline'
-        },
-			plugins: {'core': [LevelSelector]},  
-            parentId: '#vid',	
-		    watermark  : "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png",
+
+let player = new Clappr.Player({
+    source: sv,
+    mimeType: 'application/x-mpegURL',
+    parentId: '#vid',
+    mute: true,
+    autoPlay: true,
+   hideVolumeBar: true,
+    width: "100vw",
+    height: "100vh",
+    disableVideoTagContextMenu: true,
+                        disableErrorScreen: true,
+   watermark  : "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png",
 		    position  : "bottom-left",
-		  	watermarkLink: 'http://www.koraglive.cf/',
-			allowUserInteraction: false,
-			persistConfig: false,
-  mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"}, 
+  mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"},
+                        events: {
+                        onError: function(e) {
+                        setTimeout(function() { player.configure(player.options); }, 10000);}},
 
-			events     :
-			{
-    			onError: function(e) {
-					errorPlaying();
-				},
+    plugins: {'core': [LevelSelector]},  
 
-				onPlay : function(e){
-					setTimeout( function(){ $( ".stream-logo").fadeOut() }, 1000 );
-					if( !videoStarted )
-					{
-						videoStarted = true;
-						setTimeout( function(){var h = document.getElementsByTagName("head")[0],s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = "";h.appendChild(s);},15000);
-						
+    playback: {
+        hlsjsConfig: {
+        hlsUseNextLevel: true,
+        liveSyncDurationCount: 7,
+        maxBufferHole: 10,
+        maxLoadingDelay: 6,
+        maxBufferSize: 100,
+        loader: engine.createLoaderClass(),
+        fragLoadingRetryDelay: 10,
+        fragLoadingTimeOut: 1000,
+        startFragPrefetch: true,}
+    }
 
-						//setTimeout( function(){ $.post( "", { "ref" : "grk66i5es9iut", "a" : "play" } ) }, 15000 );
-
-						
-					}
-				},
-
-				onPause: function(e) {
-					$( ".stream-logo").fadeIn();
-				},
-
-				onVolumeUpdate: function(e) {
-					$("#btn-unmute").fadeOut()
-				},
-
-				onReady: function(){
-
-				}
-			}
-		});
-
-		setTimeout(function() { player.play(); }, 3000);
-
-function WSreloadStream( )
-	{
-		$(".stream-offline").css("display","none");
-		var newplayer = player.configure(player);
-   		newplayer = new Clappr.Player(newplayer.options);
-		player.destroy();
-		player =  newplayer;
-		player.mute();
-		player.play();
-		player.unmute();
-	}
-
-	function WSUnmute()
-	{
-		player.unmute();
-	}
-
-	});
-
+});
 p2pml.hlsjs.initClapprPlayer(player);
-  
   player.on(Clappr.Events.PLAYER_STOP, playerStop);
                function playerStop(){
                location.reload();
@@ -208,8 +150,8 @@ p2pml.hlsjs.initClapprPlayer(player);
      document.write("Not supported :(");
                player.setVolume(100); // 1%
                player.play();
-
 </script>
+
 
 <script type="text/javascript">
 if(typeof player !== 'undefined'){

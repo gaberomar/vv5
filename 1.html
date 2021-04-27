@@ -105,10 +105,10 @@ var sv = getParam("sv");
 </style>
 <script>
 
-let engine = new p2pml.hlsjs.Engine({segments: {swarmId: "ga3"},loader: {httpUseRanges:true, WaitForTracker: true, WaitForTrackerCounter:4500}});
+var engine = new p2pml.hlsjs.Engine({segments: {swarmId: ""},loader: {httpUseRanges:true, WaitForTracker: true, WaitForTrackerCounter:4500}});
 
 
-let player = new Clappr.Player({
+var player = new Clappr.Player({
     source: sv,
     mimeType: 'application/x-mpegURL',
     parentId: '#vid',

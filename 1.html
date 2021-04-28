@@ -142,18 +142,17 @@ var engine = new p2pml.hlsjs.Engine({segments: {swarmId: ""},loader: {httpUseRan
 			loop: true, 
             height: '100%',
             width: '100%',
-			playback: {
-      playInline: 'playsinline'
-        },
-			plugins: {'core': [LevelSelector]},  
+		playback: {
+           playInline: 'playsinline'
+             },
+	   plugins: {'core': [LevelSelector]},  
             parentId: '#vid',	
 		    watermark  : "http://1.bp.blogspot.com/-6Utq5JU_l2w/YCAo8gB0x7I/AAAAAAAALZU/YJxOQHkvIywpU4znsCgYEvIsc-U8ijY1wCK4BGAYYCw/s1600/2.png",
 		    position  : "bottom-left",
 		  	watermarkLink: 'http://www.koraglive.cf/',
 			allowUserInteraction: false,
 			persistConfig: false,
-  mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"},
-
+		    mediacontrol: {seekbar: "#fbe407", buttons: "#fbe407"},
 			events     :
 			{
     			onError: function(e) {

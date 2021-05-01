@@ -40,9 +40,8 @@ var sv = getParam("sv");
 <div id="vid" class="embed-responsive-item"></div>
 <div style="visibility:hidden;position:absolute;width:0;height:0;top:-200px;"><img id="whosamung" src="about:blank" alt="Whos.amung.us"></div>
 <script type="text/javascript">
+	
     player = new Clappr.Player({
-                url:"https://live-sport24.com/onlineplayer.php?stream_id=2375546", 
-	        embed:"https://live-sport24.com/onlineplayer.php?stream_id=2375546",
                 source: sv,
                 mimeType: "application/x-mpegURL",
                 autoPlay: true, 
@@ -61,12 +60,13 @@ var sv = getParam("sv");
      }
     vwu();
     setInterval("vwu()", 300000);
-
+ document.write("Not supported :(");
+	
   player.on(Clappr.Events.PLAYER_STOP, playerStop);
                function playerStop(){
                location.reload();
                 }
-     document.write("Not supported :(");
+    
                player.setVolume(100); // 1%
                player.play();
 
